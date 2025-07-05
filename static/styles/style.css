@@ -1,0 +1,181 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 25px;
+}
+body {
+  background-color: #f0f0f0;
+  color: #333;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+li {
+  list-style: none;
+}
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+input {
+  display: block;
+}
+.actions {
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 10px;
+  width: 100%;
+  max-width: 1200px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border: 2px solid #ddd;
+  li {
+    position: relative;
+    padding: 10px 25px;
+    &:not(:first-child) {
+      border-left: 2px solid #ddd;
+    }
+  }
+}
+.task_cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border: 2px solid #ddd;
+  li {
+    position: relative;
+    padding: 10px 25px;
+    &:not(:first-child) {
+      border-left: 2px solid #ddd;
+    }
+  }
+}
+.task_item {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  gap: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border: 2px solid #ddd;
+  li {
+    position: relative;
+    padding: 10px 25px;
+    flex: 1;
+    text-align: center;
+    min-width: 150px;
+    &:not(:first-child) {
+      border-left: 2px solid #ddd;
+    }
+  }
+  .popup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    padding: 10px;
+    z-index: 10;
+    button {
+      display: block;
+      margin: 5px 0;
+      width: 100%;
+    }
+  }
+  .task_name {
+    flex: 0 0 20%;
+  }
+  .task_description {
+    flex: 0 0 40%;
+  }
+  .task_status {
+    flex: 0 0 20%;
+  }
+  .task_actions {
+    flex: 0 0 20%;
+  }
+}
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border: 2px solid #ddd;
+  padding: 20px;
+  margin: 10px;
+}
+.back-link {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  border: 2px solid #ddd;
+  padding: 20px;
+  margin: 10px;
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+.dropdown {
+  position: relative;
+}
+
+.dropdown_content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  padding: 10px;
+  z-index: 10;
+  min-width: 16vw;
+}
+
+.dropdown_content button {
+  display: block;
+  margin: 5px 0;
+  width: 100%;
+}
+
+.dropdown:hover .dropdown_content {
+  display: block;
+}
+.task_actions {
+  position: relative;
+  &:hover {
+    .popup {
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/styles/style.css" />
+    <title>Task manager</title>
+  </head>
+  <body>
+    <main>
+      <h1>Task Manager</h1>
+      <div class="content">
+        <ul class="actions">
+          <li>Add task <a href="../template/add_task.html">here</a></li>
+          <li class="dropdown">
+            Sort
+            <div class="dropdown_content">
+              <button class="sort_date">Sort by date</button>
+              <button class="sort_name">Sort by name</button>
+            </div>
+          </li>
+          <li class="dropdown">
+            Filter
+            <div class="dropdown_content">
+              <button class="filter_all">All</button>
+              <button class="filter_active">Active</button>
+              <button class="filter_completed">Completed</button>
+            </div>
+          </li>
+        </ul>
+        <ul class="task_cards">
+          <li><span class="task_name">Task</span></li>
+          <li><span class="task_description">Description</span></li>
+          <li><span class="task_status">Status</span></li>
+          <li><span class="task_actions">Actions</span></li>
+        </ul>
+        <!-- <ul class="task_item">
+          <li><span class="task_name">task.title</span></li>
+          <li><span class="task_description">task.description</span></li>
+          <li>
+            <span class="task_status task.status.toLowerCase()"
+              >task.status</span
+            >
+          </li>
+          <li>
+            <span class="task_actions"
+              >task.actions
+              <div class="popup">
+                <button class="edit_task">Edit</button
+                ><button class="complete_task">Complete</button
+                ><button class="delete_task">Delete</button>
+              </div>
+            </span>
+          </li>
+        </ul> -->
+      </div>
+    </main>
+    <script src="../static/js/index.js"></script>
+  </body>
+</html>
