@@ -52,8 +52,10 @@ input {
 }
 .task_cards {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  justify-content: left;
   gap: 20px;
   padding: 10px;
   background-color: #fff;
@@ -64,33 +66,29 @@ input {
   li {
     position: relative;
     padding: 10px 25px;
-    &:not(:first-child) {
-      border-left: 2px solid #ddd;
-    }
   }
 }
-.task_item {
+.task_item,
+.task_header {
   display: flex;
-  flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
   padding: 10px;
-  border-bottom: 1px solid #ccc;
-  gap: 0;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
   border: 2px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: auto;
   li {
-    position: relative;
-    padding: 10px 25px;
-    flex: 1;
-    text-align: center;
-    min-width: 150px;
-    &:not(:first-child) {
-      border-left: 2px solid #ddd;
-    }
+    display: block;
+    text-align: left;
+    padding: 5px;
   }
   .popup {
     display: none;
@@ -108,7 +106,7 @@ input {
       width: 100%;
     }
   }
-  .task_name {
+  /* .task_name {
     flex: 0 0 20%;
   }
   .task_description {
@@ -119,7 +117,7 @@ input {
   }
   .task_actions {
     flex: 0 0 20%;
-  }
+  } */
 }
 .add-task-form {
   display: flex;
@@ -158,7 +156,7 @@ input {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   border-radius: 6px;
   padding: 10px;
-  z-index: 10;
+  z-index: 1;
   min-width: 16vw;
 }
 

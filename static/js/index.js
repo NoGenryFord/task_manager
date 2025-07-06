@@ -21,9 +21,9 @@ const taskContainer = document.querySelector(".task_cards");
 function renderTasks() {
   //taskContainer.innerHTML = ""; // Clear existing tasks
   tasks.forEach((task) => {
-    const taskItem = document.createElement("li");
+    const taskItem = document.createElement("ul");
+    taskItem.classList.add("task_item");
     taskItem.innerHTML = `
-        <ul class="task_item">
           <li><span class="task_name">${task.title}</span></li>
           <li><span class="task_description">${task.description}</span></li>
           <li><span class="task_status ${task.status.toLowerCase()}">${
@@ -39,7 +39,6 @@ function renderTasks() {
               </div>
             </span>
           </li>
-        </ul>
     `;
     taskContainer.appendChild(taskItem);
   });
