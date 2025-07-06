@@ -9,17 +9,22 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Home route
-@app.route('/')
-def home():
-    return render_template('index.html')
-
 # Task model
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200), nullable=False)
     is_done = db.Column(db.Boolean, default=False)
+
+# Home route
+@app.route('/')
+def home_page():
+    return render_template('index.html')
+
+# Route to add a new task
+@app.route('/add_task')
+def add_task_page():
+    return render_template('add_task.html')
 
 # Initialize the database
 @app.before_request
@@ -40,9 +45,13 @@ def get_tasks():
 
 # Create a new task
 @app.route('/tasks', methods=['POST'])
-def create_task():
+def add_task():
     data = request.json
-    new_task = Task(title=data['title'], description=data['description'], is_done=data.get('is_done', False))
+    new_task = Task(
+        title=data.get('title'),
+        description=data.get('description'),
+        is_done=data.get('is_done', False)
+    )
     db.session.add(new_task)
     db.session.commit()
     return jsonify({

@@ -11,7 +11,7 @@
       <h1>Task Manager</h1>
       <div class="content">
         <ul class="actions">
-          <li><span class="add_task">Add task</span></li>
+          <li><a href="/add_task" class="add_task">Add task</a></li>
           <li class="dropdown">
             <span class="sort_label">Sort</span>
             <div class="dropdown_content">
@@ -29,36 +29,12 @@
           </li>
         </ul>
         <div class="task_cards">
-          <ul class="task_header">
-            <li><span class="task_name">Task</span></li>
-            <li><span class="task_description">Description</span></li>
-            <li><span class="task_status">Status</span></li>
-            <li><span class="task_actions">Actions</span></li>
-          </ul>
+          <div class="task_header">
+            <span class="task_name">List Tasks</span>
+          </div>
         </div>
-
-        <!-- Example of a task item -->
-        <!-- <ul class="task_item">
-          <li><span class="task_name">task.title</span></li>
-          <li><span class="task_description">task.description</span></li>
-          <li>
-            <span class="task_status task.status.toLowerCase()"
-              >task.status</span
-            >
-          </li>
-          <li>
-            <span class="task_actions"
-              >task.actions
-              <div class="popup">
-                <button class="edit_task">Edit</button
-                ><button class="complete_task">Complete</button
-                ><button class="delete_task">Delete</button>
-              </div>
-            </span>
-          </li>
-        </ul> -->
       </div>
     </main>
-    <script src="../static/js/index.js"></script>
+    <script src="../static/js/index.js" defer></script>
   </body>
 </html>
