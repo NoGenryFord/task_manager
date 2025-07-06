@@ -11,27 +11,31 @@
       <h1>Task Manager</h1>
       <div class="content">
         <ul class="actions">
-          <li><a href="/add_task" class="add_task">Add task</a></li>
+          <li><a href="/add_task" class="add_task">➕ Add Task</a></li>
           <li class="dropdown">
-            <span class="sort_label">Sort</span>
+            <span class="sort_label">🔄 Sort</span>
             <div class="dropdown_content">
-              <button class="sort_date">Sort by date</button>
-              <button class="sort_name">Sort by name</button>
+              <button class="sort_date">📅 Sort by date</button>
+              <button class="sort_name">🔤 Sort by name</button>
             </div>
           </li>
           <li class="dropdown">
-            <span class="filter_label">Filter</span>
+            <span class="filter_label">🔍 Filter</span>
             <div class="dropdown_content">
-              <button class="filter_all">All</button>
-              <button class="filter_active">Active</button>
-              <button class="filter_completed">Completed</button>
+              <button class="filter_all">📋 All tasks</button>
+              <button class="filter_active">🔄 Active</button>
+              <button class="filter_completed">✅ Completed</button>
             </div>
           </li>
         </ul>
         <div class="task_cards">
-          <div class="task_header">
-            <span class="task_name">List Tasks</span>
-          </div>
+          <ul class="task_header">
+            <li><span class="task_name">📋 Task</span></li>
+            <li><span class="task_description">📝 Description</span></li>
+            <li><span class="task_due_date">📅 Due Date</span></li>
+            <li><span class="task_status">📊 Status</span></li>
+            <li><span class="task_actions">⚙️ Actions</span></li>
+          </ul>
         </div>
       </div>
     </main>

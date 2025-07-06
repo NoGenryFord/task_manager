@@ -8,27 +8,47 @@
   </head>
   <body>
     <main>
-      <h1>Add Task</h1>
-      <form class="add_task_form" id="add_task_form">
-        <label>
-          Task Title:<br />
-          <input type="text" name="title" required maxlength="100" /> </label
-        ><br />
-        <label>
-          Description:<br />
-          <textarea
-            name="description"
-            rows="3"
-            maxlength="500"
-          ></textarea></label
-        ><br />
-        <label>
-          Due Date:<br />
-          <input type="date" name="dueDate" required /> </label
-        ><br />
-        <button type="submit">Add</button>
-      </form>
-      <a class="back_link" href="/">Back to Task List</a>
+      <h1>➕ Add New Task</h1>
+      <div class="form_container">
+        <form class="add_task_form" id="add_task_form">
+          <div class="form_group">
+            <label class="form_label">
+              📋 Task Title
+              <input
+                type="text"
+                name="title"
+                required
+                maxlength="100"
+                placeholder="Enter task title..."
+              />
+            </label>
+          </div>
+
+          <div class="form_group">
+            <label class="form_label">
+              📝 Description
+              <textarea
+                name="description"
+                rows="4"
+                maxlength="500"
+                placeholder="Enter task description..."
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="form_group">
+            <label class="form_label">
+              📅 Due Date
+              <input type="date" name="dueDate" required />
+            </label>
+          </div>
+
+          <div class="form_actions">
+            <button type="submit" class="btn_primary">✅ Create Task</button>
+            <a href="/" class="btn_secondary">❌ Cancel</a>
+          </div>
+        </form>
+      </div>
     </main>
     <script src="../static/js/add_task.js" defer></script>
   </body>

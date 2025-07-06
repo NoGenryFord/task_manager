@@ -1,6 +1,31 @@
 // File: static/js/index.js
 // This file contains the JavaScript code for managing tasks in a simple task management application.
 
+// Function to format date for display
+function formatDate(dateString) {
+  if (!dateString) return "No due date";
+
+  const date = new Date(dateString);
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  // Reset time to compare only dates
+  today.setHours(0, 0, 0, 0);
+  tomorrow.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+
+  if (date.getTime() === today.getTime()) {
+    return "📅 Today";
+  } else if (date.getTime() === tomorrow.getTime()) {
+    return "📅 Tomorrow";
+  } else if (date < today) {
+    return "🔴 Overdue";
+  } else {
+    return `📅 ${dateString}`;
+  }
+}
+
 // Fetch tasks from the server
 async function fetchTasks() {
   const response = await fetch("http://127.0.0.1:5000/tasks");
@@ -21,7 +46,12 @@ async function renderTasks() {
     taskItem.classList.add("task_item");
     taskItem.innerHTML = `
           <li><span class="task_name">${task.title}</span></li>
-          <li><span class="task_description">${task.description}</span></li>
+          <li><span class="task_description">${
+            task.description || "No description"
+          }</span></li>
+          <li><span class="task_due_date">${
+            task.due_date ? formatDate(task.due_date) : "No due date"
+          }</span></li>
           <li><span class="task_status ${
             task.is_done ? "completed" : "active"
           }">${task.is_done ? "Completed" : "Active"}</span></li>
