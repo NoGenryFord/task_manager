@@ -1,3 +1,4 @@
+# File: app.py
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
@@ -14,6 +15,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(200), nullable=False)
+    due_date = db.Column(db.String(10), nullable=True)  
     is_done = db.Column(db.Boolean, default=False)
 
 # Home route
@@ -39,8 +41,24 @@ def get_tasks():
         'id': task.id,
         'title': task.title,
         'description': task.description,
+        'due_date': task.due_date,
         'is_done': task.is_done
     } for task in tasks]), 200
+
+# Get a single task
+@app.route('/tasks/<int:task_id>', methods=['GET'])
+def get_task(task_id):
+    task = Task.query.get(task_id)
+    if not task:
+        return jsonify({"error": "Task not found"}), 404
+    
+    return jsonify({
+        'id': task.id,
+        'title': task.title,
+        'description': task.description,
+        'due_date': task.due_date,
+        'is_done': task.is_done
+    }), 200
 
 
 # Create a new task
@@ -50,6 +68,7 @@ def add_task():
     new_task = Task(
         title=data.get('title'),
         description=data.get('description'),
+        due_date=data.get('dueDate'),  
         is_done=data.get('is_done', False)
     )
     db.session.add(new_task)
@@ -58,6 +77,7 @@ def add_task():
         'id': new_task.id,
         'title': new_task.title,
         'description': new_task.description,
+        'due_date': new_task.due_date,  
         'is_done': new_task.is_done
     }), 201
 
@@ -71,12 +91,14 @@ def update_task(task_id):
     updated_data = request.json
     task.title = updated_data.get('title', task.title)
     task.description = updated_data.get('description', task.description)
+    task.due_date = updated_data.get('due_date', task.due_date)  
     task.is_done = updated_data.get('is_done', task.is_done)
     db.session.commit()
     return jsonify({
         'id': task.id,
         'title': task.title,
         'description': task.description,
+        'due_date': task.due_date,  
         'is_done': task.is_done
     }), 200
 

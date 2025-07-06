@@ -3,7 +3,7 @@
 
 // Function to handle form submission for adding a task
 document.addEventListener("DOMContentLoaded", () => {
-  const addTaskForm = document.getElementById("add-task-form");
+  const addTaskForm = document.getElementById("add_task_form");
 
   if (addTaskForm) {
     addTaskForm.addEventListener("submit", async (event) => {
