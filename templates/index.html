@@ -1,33 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Basic HTML5 meta tags for proper rendering -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Link to main stylesheet for application styling -->
     <link rel="stylesheet" href="../static/styles/style.css" />
+
+    <!-- Favicon using SVG data URI with clipboard emoji -->
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>"
     />
-    <title>Task manager</title>
+
+    <!-- Page title displayed in browser tab -->
+    <title>Task Manager</title>
   </head>
   <body>
+    <!-- Main content container -->
     <main>
+      <!-- Application header with title -->
       <h1>Task Manager</h1>
+
+      <!-- Main content area -->
       <div class="content">
+        <!-- Actions bar with navigation and controls -->
         <ul class="actions">
+          <!-- Add new task navigation link -->
           <li><a href="/add_task" class="add_task">➕ Add Task</a></li>
+
+          <!-- Sort controls dropdown -->
           <li>
             <span class="sort_actions">
               🔄 Sort by date ▼
+              <!-- Dropdown menu for sorting options -->
               <div class="popup">
                 <button class="sort_date">📅 Sort by date</button>
                 <button class="sort_name">🔤 Sort by name</button>
               </div>
             </span>
           </li>
+
+          <!-- Filter controls dropdown -->
           <li>
             <span class="filter_actions">
               🔍 All tasks ▼
+              <!-- Dropdown menu for filtering options -->
               <div class="popup">
                 <button class="filter_all">📋 All tasks</button>
                 <button class="filter_active">🔄 Active</button>
@@ -36,7 +55,11 @@
             </span>
           </li>
         </ul>
+
+        <!-- Task list container -->
+        <!-- This section is populated dynamically by JavaScript -->
         <div class="task_cards">
+          <!-- Task header row with column labels -->
           <ul class="task_header">
             <li><span class="task_name">📋 Task</span></li>
             <li><span class="task_description">📝 Description</span></li>
@@ -44,9 +67,14 @@
             <li><span class="task_status">📊 Status</span></li>
             <li><span class="task_actions">⚙️ Actions</span></li>
           </ul>
+          <!-- Individual task items will be dynamically inserted here by JavaScript -->
         </div>
       </div>
     </main>
+
+    <!-- JavaScript for dynamic functionality -->
+    <!-- Handles task loading, filtering, sorting, and user interactions -->
+    <!-- 'defer' attribute ensures script runs after HTML is fully parsed -->
     <script src="../static/js/index.js" defer></script>
   </body>
 </html>

@@ -1,25 +1,57 @@
-// File: static/js/index.js
-// This file contains the JavaScript code for managing tasks in a simple task management application.
+/**
+ * Task Manager Frontend - Main Page Controller
+ * ==========================================
+ *
+ * This file manages the main task list page functionality including:
+ * - Fetching and displaying tasks from the API
+ * - Filtering tasks (all, active, completed)
+ * - Sorting tasks (by date, by name)
+ * - Task actions (edit, complete, delete)
+ * - Dropdown menu interactions
+ * - Dynamic UI updates
+ *
+ */
 
-// Global variables for filtering and sorting
-let currentFilter = "all"; // 'all', 'active', 'completed'
-let currentSort = "date"; // 'date', 'name'
-let allTasks = []; // Store all tasks for filtering/sorting
+// ========================================
+// Global State Management
+// ========================================
 
-// Function to format date for display
+// Current filter state for task display
+let currentFilter = "all"; // Options: 'all', 'active', 'completed'
+
+// Current sort method for task ordering
+let currentSort = "date"; // Options: 'date', 'name'
+
+// Cache of all tasks to avoid redundant API calls
+let allTasks = []; // Stores complete task list for client-side filtering/sorting
+
+// ========================================
+// Utility Functions
+// ========================================
+
+/**
+ * Format a date string for user-friendly display.
+ * Provides contextual labels like "Today", "Tomorrow", "Overdue".
+ *
+ * @param {string} dateString - Date in YYYY-MM-DD format
+ * @returns {string} Formatted date string with emoji indicators
+ */
 function formatDate(dateString) {
+  // Handle empty or null dates
   if (!dateString) return "No due date";
 
+  // Create date objects for comparison
   const date = new Date(dateString);
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  // Reset time to compare only dates
+  // Reset time components to compare only dates (not time)
   today.setHours(0, 0, 0, 0);
   tomorrow.setHours(0, 0, 0, 0);
   date.setHours(0, 0, 0, 0);
 
+  // Return contextual date labels
   if (date.getTime() === today.getTime()) {
     return "📅 Today";
   } else if (date.getTime() === tomorrow.getTime()) {
@@ -31,15 +63,30 @@ function formatDate(dateString) {
   }
 }
 
-// Fetch tasks from the server
+// ========================================
+// Data Management Functions
+// ========================================
+
+/**
+ * Fetch all tasks from the server API.
+ * Updates the global tasks cache for filtering/sorting.
+ *
+ * @returns {Promise<Array>} Promise resolving to array of task objects
+ */
 async function fetchTasks() {
   const response = await fetch("http://127.0.0.1:5000/tasks");
   const tasks = await response.json();
-  allTasks = tasks; // Store for filtering/sorting
+  allTasks = tasks; // Update global cache
   return tasks;
 }
 
-// Function to filter tasks
+/**
+ * Filter tasks based on completion status.
+ *
+ * @param {Array} tasks - Array of task objects to filter
+ * @param {string} filter - Filter type: 'all', 'active', or 'completed'
+ * @returns {Array} Filtered array of tasks
+ */
 function filterTasks(tasks, filter) {
   switch (filter) {
     case "active":
@@ -52,43 +99,64 @@ function filterTasks(tasks, filter) {
   }
 }
 
-// Function to sort tasks
+/**
+ * Sort tasks based on specified criteria.
+ *
+ * @param {Array} tasks - Array of task objects to sort
+ * @param {string} sortBy - Sort method: 'date' or 'name'
+ * @returns {Array} New sorted array of tasks (original array unchanged)
+ */
 function sortTasks(tasks, sortBy) {
   return [...tasks].sort((a, b) => {
     switch (sortBy) {
       case "name":
+        // Alphabetical sort by title (case-insensitive)
         return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
       case "date":
       default:
         // Sort by due_date, putting tasks without date at the end
         if (!a.due_date && !b.due_date) return 0;
-        if (!a.due_date) return 1;
-        if (!b.due_date) return -1;
+        if (!a.due_date) return 1; // No date goes to end
+        if (!b.due_date) return -1; // No date goes to end
         return new Date(a.due_date) - new Date(b.due_date);
     }
   });
 }
 
-// Function to render tasks
+// ========================================
+// UI Rendering Functions
+// ========================================
+
+/**
+ * Main function to render tasks in the UI.
+ * Applies current filter and sort settings, then creates DOM elements for each task.
+ *
+ * @param {Array|null} tasksToRender - Optional array of tasks to render. If null, fetches from API.
+ */
 async function renderTasks(tasksToRender = null) {
-  // Clear existing tasks (remove all task_item elements, but keep task_header)
+  // Clear existing task items from the container
+  // Note: We keep the task_header and only remove task_item elements
   const taskContainer = document.querySelector(".task_cards");
   const existingTasks = taskContainer.querySelectorAll(".task_item");
   existingTasks.forEach((task) => task.remove());
 
-  // Use provided tasks or fetch new ones
+  // Get tasks data - either use provided tasks or fetch fresh data
   let tasks = tasksToRender;
   if (!tasks) {
     tasks = await fetchTasks();
   }
 
-  // Apply current filter and sort
+  // Apply current filtering and sorting preferences
   const filteredTasks = filterTasks(tasks, currentFilter);
   const sortedTasks = sortTasks(filteredTasks, currentSort);
 
+  // Create DOM elements for each task
   sortedTasks.forEach((task) => {
+    // Create task item container
     const taskItem = document.createElement("ul");
     taskItem.classList.add("task_item");
+
+    // Build task HTML with dynamic content and status classes
     taskItem.innerHTML = `
           <li><span class="task_name">${task.title}</span></li>
           <li><span class="task_description">${
@@ -118,41 +186,63 @@ async function renderTasks(tasksToRender = null) {
           </li>
     `;
 
-    // Event listeners for task actions
+    // Attach event listeners for task actions
+    // Edit task button - redirects to edit page
     taskItem.querySelector(".edit_task").addEventListener("click", (e) => {
       const taskId = e.target.getAttribute("data-task-id");
       editTask(parseInt(taskId));
     });
+
+    // Complete task button - toggles completion status
     taskItem.querySelector(".complete_task").addEventListener("click", (e) => {
       const taskId = e.target.getAttribute("data-task-id");
       completeTask(parseInt(taskId));
     });
+
+    // Delete task button - removes task permanently
     taskItem.querySelector(".delete_task").addEventListener("click", (e) => {
       const taskId = e.target.getAttribute("data-task-id");
       deleteTask(parseInt(taskId));
     });
 
+    // Add the completed task item to the container
     taskContainer.appendChild(taskItem);
   });
 }
 
-// Function to edit a task (redirect to edit page)
+// ========================================
+// Task Action Functions
+// ========================================
+
+/**
+ * Navigate to the edit task page for a specific task.
+ *
+ * @param {number} taskId - The ID of the task to edit
+ */
 function editTask(taskId) {
   window.location.href = `/edit_task/${taskId}`;
 }
 
-// Function to complete a task
+/**
+ * Mark a task as completed by updating its status via API.
+ * Automatically re-renders the task list after successful update.
+ *
+ * @param {number} taskId - The ID of the task to complete
+ */
 async function completeTask(taskId) {
   try {
+    // First, fetch the current task data
     const response = await fetch(`http://127.0.0.1:5000/tasks/${taskId}`);
     if (!response.ok) {
       alert("Task not found");
       return;
     }
 
+    // Get task data and set completion status
     const task = await response.json();
     task.is_done = true;
 
+    // Send update request to API
     const updateResponse = await fetch(
       `http://127.0.0.1:5000/tasks/${taskId}`,
       {
@@ -169,20 +259,28 @@ async function completeTask(taskId) {
       return;
     }
 
-    renderTasks(); // Re-render tasks
+    // Refresh the task display to show updated status
+    renderTasks();
   } catch (error) {
     console.error("Error completing task:", error);
     alert("An error occurred while completing the task");
   }
 }
 
-// Function to delete a task
+/**
+ * Delete a task permanently from the database.
+ * Shows confirmation dialog before deletion.
+ *
+ * @param {number} taskId - The ID of the task to delete
+ */
 async function deleteTask(taskId) {
   try {
+    // Confirm deletion with user
     if (!confirm("Are you sure you want to delete this task?")) {
       return;
     }
 
+    // Send delete request to API
     const response = await fetch(`http://127.0.0.1:5000/tasks/${taskId}`, {
       method: "DELETE",
     });
@@ -192,33 +290,51 @@ async function deleteTask(taskId) {
       return;
     }
 
-    renderTasks(); // Re-render tasks after deletion
+    // Refresh the task display after successful deletion
+    renderTasks();
   } catch (error) {
     console.error("Error deleting task:", error);
     alert("An error occurred while deleting the task");
   }
 }
 
-// Initialize the application
+// ========================================
+// Application Initialization
+// ========================================
+
+/**
+ * Initialize the task management application.
+ * Sets up initial task rendering and event listeners.
+ */
 document.addEventListener("DOMContentLoaded", async () => {
-  // First load and render tasks
+  // Load and display tasks on page load
   await renderTasks();
 
-  // Then set up event listeners for filtering and sorting
+  // Set up interactive elements for filtering and sorting
   setupEventListeners();
 });
 
-// Function to set up event listeners
+// ========================================
+// Event Listener Management
+// ========================================
+
+/**
+ * Set up all event listeners for the application.
+ * Initializes filter and sort controls with proper active states.
+ */
 function setupEventListeners() {
-  // Set initial active states
+  // Set initial active button states
   updateActiveButton("filter", "filter_all");
   updateActiveButton("sort", "sort_date");
 
-  // Setup button event listeners
+  // Set up all button click handlers
   setupButtonEventListeners();
 }
 
-// Function to setup button event listeners (can be called multiple times)
+/**
+ * Set up click event listeners for filter and sort buttons.
+ * This function can be called multiple times to re-attach listeners after DOM updates.
+ */
 function setupButtonEventListeners() {
   // Filter buttons
   const filterAll = document.querySelector(".filter_all");
@@ -275,7 +391,17 @@ function setupButtonEventListeners() {
   }
 }
 
-// Function to update active button styling
+// ========================================
+// UI State Management
+// ========================================
+
+/**
+ * Update the active button styling and dropdown labels.
+ * Manages visual feedback for current filter/sort selection.
+ *
+ * @param {string} type - Type of action: "filter" or "sort"
+ * @param {string} activeClass - CSS class name of the button to mark as active
+ */
 function updateActiveButton(type, activeClass) {
   // Remove active class from all buttons of this type
   const prefix = type === "filter" ? "filter_" : "sort_";
@@ -283,18 +409,21 @@ function updateActiveButton(type, activeClass) {
     btn.classList.remove("active");
   });
 
-  // Add active class to clicked button
+  // Add active class to the newly selected button
   const activeButton = document.querySelector(`.${activeClass}`);
   if (activeButton) {
     activeButton.classList.add("active");
   }
 
-  // Update label to show current selection
+  // Update dropdown label to show current selection
   if (type === "filter") {
+    // Update filter dropdown with current selection
     const filterActions = document.querySelector(".filter_actions");
     const buttonText = activeButton
       ? activeButton.textContent.trim()
       : "All tasks";
+
+    // Rebuild filter dropdown HTML with updated label
     filterActions.innerHTML = `🔍 ${buttonText.replace(/^[🔄📋✅]\s*/, "")} ▼
       <div class="popup">
         <button class="filter_all">📋 All tasks</button>
@@ -302,25 +431,32 @@ function updateActiveButton(type, activeClass) {
         <button class="filter_completed">✅ Completed</button>
       </div>`;
 
-    // Re-setup event listeners and set active state
+    // Re-attach event listeners after DOM update
     setupButtonEventListeners();
+
+    // Restore active state to the correct button
     const newActiveButton = document.querySelector(`.${activeClass}`);
     if (newActiveButton) {
       newActiveButton.classList.add("active");
     }
   } else if (type === "sort") {
+    // Update sort dropdown with current selection
     const sortActions = document.querySelector(".sort_actions");
     const buttonText = activeButton
       ? activeButton.textContent.trim()
       : "Sort by date";
+
+    // Rebuild sort dropdown HTML with updated label
     sortActions.innerHTML = `🔄 ${buttonText.replace(/^[📅🔤]\s*/, "")} ▼
       <div class="popup">
         <button class="sort_date">📅 Sort by date</button>
         <button class="sort_name">🔤 Sort by name</button>
       </div>`;
 
-    // Re-setup event listeners and set active state
+    // Re-attach event listeners after DOM update
     setupButtonEventListeners();
+
+    // Restore active state to the correct button
     const newActiveButton = document.querySelector(`.${activeClass}`);
     if (newActiveButton) {
       newActiveButton.classList.add("active");

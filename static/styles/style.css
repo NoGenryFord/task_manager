@@ -1,248 +1,347 @@
+/**
+ * Task Manager - Modern CSS Styles
+ * ================================
+ * 
+ * This stylesheet provides a complete, modern design system for the Task Manager application.
+ * It includes responsive design, interactive elements, and accessibility features.
+ * 
+ * Structure:
+ * 1. CSS Variables (Design System)
+ * 2. Reset and Base Styles
+ * 3. Typography
+ * 4. Layout Components
+ * 5. Button Styles
+ * 6. Navigation/Actions Bar
+ * 7. Task Display Components
+ * 8. Popup/Dropdown Menus
+ * 9. Form Styles
+ * 10. Message/Feedback Styles
+ * 11. Animations
+ * 12. Responsive Design
+ * 
+ * Features:
+ * - Modern CSS variables for consistent theming
+ * - Responsive design for mobile and desktop
+ * - Interactive hover effects and animations
+ * - Accessible color contrast and focus states
+ * - Dropdown menus with proper z-index management
+ * 
+ */
+
+/* ==========================================
+   1. CSS Variables (Design System)
+   ========================================== */
+
+/* Global design tokens for consistent styling across the application */
+:root {
+  /* Primary brand colors and gradients */
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+
+  /* Text color hierarchy */
+  --text-dark: #2c3e50; /* Primary text */
+  --text-muted: #7f8c8d; /* Secondary text */
+  --text-light: #bdc3c7; /* Disabled/placeholder text */
+
+  /* Semantic colors for user feedback */
+  --success-color: #27ae60; /* Success messages, completed tasks */
+  --warning-color: #f39c12; /* Warning messages */
+  --danger-color: #e74c3c; /* Error messages, delete actions */
+  --info-color: #3498db; /* Information, edit actions */
+
+  /* Background and surface colors */
+  --background-light: #f0f0f0; /* Page background */
+  --white: #ffffff; /* Card backgrounds, form fields */
+  --border-light: #e0e0e0; /* Subtle borders */
+
+  /* Shadow system for depth */
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle elevation */
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.15); /* Card hover states */
+  --shadow-heavy: 0 8px 25px rgba(0, 0, 0, 0.2); /* Modal/popup shadows */
+
+  /* Design system tokens */
+  --border-radius: 12px; /* Consistent rounded corners */
+  --transition: all 0.3s ease; /* Smooth animations */
+}
+
+/* ==========================================
+   2. Reset and Base Styles
+   ========================================== */
+
+/* Modern CSS reset for consistent cross-browser styling */
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
-  font-size: 25px;
+  box-sizing: border-box; /* Include padding/border in element width */
+  font-family: sans-serif; /* Clean, readable font stack */
 }
+
+/* Base body styling with improved readability */
 body {
-  background-color: #f0f0f0;
-  color: #333;
-  margin-left: 50px;
-  margin-right: 50px;
+  font-size: 20px;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  margin: 0 50px; /* Horizontal spacing for desktop */
+  line-height: 1.6; /* Improved text readability */
 }
+
+/* ==========================================
+   3. Typography
+   ========================================== */
+
+/* Main page heading with gradient text effect */
 h1 {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 30px 0;
-  font-size: 2.2em;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-size: 2.5rem;
+
+  /* Gradient text effect using background clip */
+  background: var(--primary-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-align: center;
 }
+
+/* Remove default list styling */
 li {
   list-style: none;
 }
+
+/* ==========================================
+   4. Layout Components
+   ========================================== */
+
+/* Main content container with centered alignment */
 main {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-input {
-  display: block;
+
+/* ==========================================
+   5. Button System
+   ========================================== */
+
+/* Base button class with consistent styling */
+.btn {
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
+
+/* Primary button style (main actions) */
+.btn-primary {
+  background: var(--primary-gradient);
+  color: var(--white);
+  padding: 15px 30px;
+  font-size: 0.95em;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px); /* Subtle lift effect */
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Secondary button style (alternative actions) */
+.btn-secondary {
+  background: #ecf0f1;
+  color: var(--text-muted);
+  border: 2px solid var(--text-light);
+  padding: 13px 30px;
+  font-size: 0.95em;
+}
+
+.btn-secondary:hover {
+  background: var(--text-light);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}
+
+/* Legacy button classes for backward compatibility */
+.btn_primary {
+  background: var(--primary-gradient);
+  color: var(--white);
+  padding: 15px 30px;
+  font-size: 0.95em;
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn_primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn_secondary {
+  background: #ecf0f1;
+  color: var(--text-muted);
+  border: 2px solid var(--text-light);
+  padding: 13px 30px;
+  font-size: 0.95em;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn_secondary:hover {
+  background: var(--text-light);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
+}
+
+/* ==========================================
+   6. Navigation/Actions Bar
+   ========================================== */
+
+/* Main actions bar containing navigation and controls */
 .actions {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 0;
-  padding: 0;
   width: 100%;
   max-width: 1200px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  background: var(--primary-gradient);
+  border-radius: var(--border-radius);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-  transition: all 0.3s ease;
-  border: none;
+  transition: var(--transition);
   margin-bottom: 20px;
-  overflow: hidden;
-
-  &:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.18);
-    transform: translateY(-1px);
-  }
-
-  li {
-    position: relative;
-    padding: 15px 25px;
-    color: white;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    cursor: pointer;
-
-    &:not(:last-child) {
-      border-right: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-    }
-
-    &:first-child {
-      border-top-left-radius: 12px;
-      border-bottom-left-radius: 12px;
-    }
-
-    &:last-child {
-      border-top-right-radius: 12px;
-      border-bottom-right-radius: 12px;
-    }
-  }
+  overflow: visible; /* Allow dropdowns to extend outside */
+  position: relative;
+  z-index: 100; /* Ensure it's above other content */
 }
+
+/* Hover effect for the entire actions bar */
+.actions:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+}
+
+/* Individual action items in the bar */
+.actions li {
+  position: relative;
+  padding: 15px 25px;
+  color: var(--white);
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+/* Separators between action items */
+.actions li:not(:last-child) {
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hover effect for individual action items */
+.actions li:hover {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px); /* Modern glass effect */
+}
+
+/* Rounded corners for first and last items */
+.actions li:first-child {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
+.actions li:last-child {
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+/* ==========================================
+   6a. Add Task Link Styling
+   ========================================== */
+
+/* Special styling for the "Add Task" navigation link */
+.add_task {
+  display: inline-block;
+  padding: 0;
+  background: transparent;
+  color: var(--white);
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.95em;
+  font-weight: 500;
+  transition: var(--transition);
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================
+   6b. Sort and Filter Controls
+   ========================================== */
+
+/* Interactive dropdown controls for sorting and filtering */
+.sort_actions,
+.filter_actions {
+  position: relative;
+  display: inline-block;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none; /* Prevent text selection */
+  z-index: 1000;
+}
+
+/* Hover effects for dropdown controls */
+.sort_actions:hover,
+.filter_actions:hover {
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 1001; /* Bring to front on hover */
+}
+
+/* ==========================================
+   7. Task Display Components
+   ========================================== */
+
+/* Main container for all task items */
 .task_cards {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   width: 100%;
-  justify-content: left;
   gap: 20px;
   padding: 10px;
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  box-shadow: var(--shadow-light);
+  transition: var(--transition);
   border: 2px solid #ddd;
-  li {
-    position: relative;
-    padding: 10px 25px;
-  }
 }
-.task_item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 15px 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border: 1px solid #e0e0e0;
+
+.task_cards li {
   position: relative;
-  z-index: 1;
-
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
-    z-index: 2;
-  }
-
-  li {
-    flex: 1;
-    padding: 8px 10px;
-    display: flex;
-    align-items: center;
-  }
-
-  .task_name {
-    flex: 2;
-    font-weight: 600;
-    color: #2c3e50;
-    font-size: 1.1em;
-  }
-
-  .task_description {
-    flex: 3;
-    color: #7f8c8d;
-    font-size: 0.95em;
-    line-height: 1.4;
-  }
-
-  .task_due_date {
-    flex: 1.5;
-    text-align: center;
-    font-size: 0.9em;
-    font-weight: 500;
-  }
-
-  .task_status {
-    flex: 1;
-    text-align: center;
-    font-weight: 600;
-
-    &.completed {
-      color: #27ae60;
-      background: #d5f4e6;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.85em;
-    }
-
-    &.active {
-      color: #e67e22;
-      background: #fdeaa7;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.85em;
-    }
-  }
-
-  .task_actions {
-    flex: 1;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .popup {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 20px;
-    background-color: #fff;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    padding: 8px;
-    z-index: 9999;
-    border: 1px solid #e0e0e0;
-    min-width: 120px;
-
-    &:before {
-      content: "";
-      position: absolute;
-      top: -8px;
-      right: 30px;
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 8px solid white;
-      z-index: 10000;
-    }
-
-    button {
-      display: block;
-      margin: 4px 0;
-      width: 100%;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background-color 0.2s ease;
-
-      &.edit_task {
-        background-color: #3498db;
-        color: white;
-        &:hover {
-          background-color: #2980b9;
-        }
-      }
-
-      &.complete_task {
-        background-color: #27ae60;
-        color: white;
-        &:hover {
-          background-color: #229954;
-        }
-      }
-
-      &.delete_task {
-        background-color: #e74c3c;
-        color: white;
-        &:hover {
-          background-color: #c0392b;
-        }
-      }
-    }
-  }
+  padding: 10px 25px;
 }
+
+/* Task header */
 .task_header {
   display: flex;
   justify-content: space-between;
@@ -250,37 +349,247 @@ input {
   width: 100%;
   margin-bottom: 10px;
   padding: 15px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 12px;
+  background: var(--primary-gradient);
+  color: var(--white);
+  border-radius: var(--border-radius);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-weight: bold;
   font-size: 0.9em;
-
-  li {
-    flex: 1;
-    text-align: center;
-    padding: 5px;
-  }
-
-  .task_name {
-    flex: 2;
-    text-align: left;
-  }
-  .task_description {
-    flex: 3;
-  }
-  .task_due_date {
-    flex: 1.5;
-  }
-  .task_status {
-    flex: 1;
-  }
-  .task_actions {
-    flex: 1;
-  }
 }
-/* Form container styles */
+
+.task_header li {
+  flex: 1;
+  text-align: center;
+  padding: 5px;
+}
+
+.task_header .task_name {
+  flex: 2;
+  text-align: left;
+  color: var(--white);
+}
+
+.task_header .task_description {
+  flex: 3;
+  color: var(--white);
+}
+
+.task_header .task_due_date {
+  flex: 1.5;
+  color: var(--white);
+}
+
+.task_header .task_status {
+  flex: 1;
+  color: var(--white);
+}
+
+.task_header .task_actions {
+  flex: 1;
+  color: var(--white);
+}
+
+/* Task items */
+.task_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 15px 20px;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  transition: var(--transition);
+  border: 1px solid var(--border-light);
+  position: relative;
+  z-index: 1;
+}
+
+.task_item:hover {
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-2px);
+  z-index: 2;
+}
+
+.task_item li {
+  flex: 1;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+}
+
+/* Task item content */
+.task_name {
+  flex: 2;
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 1.1em;
+}
+
+.task_description {
+  flex: 3;
+  color: var(--text-muted);
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.task_due_date {
+  flex: 1.5;
+  text-align: center;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.task_status {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+}
+
+.task_status.completed {
+  color: var(--success-color);
+  background: #d5f4e6;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+}
+
+.task_status.active {
+  color: #e67e22;
+  background: #fdeaa7;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+}
+
+.task_actions {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Popup styles (shared by task actions, sort, and filter) */
+.popup {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 20px;
+  background-color: var(--white);
+  box-shadow: var(--shadow-heavy);
+  border-radius: 8px;
+  padding: 8px;
+  z-index: 10000;
+  border: 1px solid var(--border-light);
+  min-width: 120px;
+}
+
+/* Special positioning for sort and filter popups */
+.sort_actions .popup,
+.filter_actions .popup {
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  right: auto;
+  z-index: 10001;
+}
+
+.popup::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 30px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--white);
+  z-index: 10000;
+}
+
+/* Special arrow positioning for sort and filter popups */
+.sort_actions .popup::before,
+.filter_actions .popup::before {
+  left: 50%;
+  transform: translateX(-50%);
+  right: auto;
+}
+
+.popup button {
+  display: block;
+  margin: 4px 0;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: var(--transition);
+}
+
+/* Task action buttons */
+.popup .edit_task {
+  background-color: var(--info-color);
+  color: var(--white);
+}
+
+.popup .edit_task:hover {
+  background-color: #2980b9;
+}
+
+.popup .complete_task {
+  background-color: var(--success-color);
+  color: var(--white);
+}
+
+.popup .complete_task:hover {
+  background-color: #229954;
+}
+
+.popup .delete_task {
+  background-color: var(--danger-color);
+  color: var(--white);
+}
+
+.popup .delete_task:hover {
+  background-color: #c0392b;
+}
+
+/* Sort and filter popup buttons */
+.sort_actions .popup button,
+.filter_actions .popup button {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.sort_actions .popup button:hover,
+.filter_actions .popup button:hover {
+  background-color: var(--secondary-color);
+}
+
+.sort_actions .popup button.active,
+.filter_actions .popup button.active {
+  background-color: var(--secondary-color);
+  font-weight: 600;
+  transform: scale(1.02);
+}
+
+/* Hide popup by default for sort and filter actions */
+.sort_actions .popup,
+.filter_actions .popup {
+  display: none;
+}
+
+/* Show popup on hover */
+.task_item:hover .task_actions .popup,
+.sort_actions:hover .popup,
+.filter_actions:hover .popup {
+  display: block;
+  animation: popupFadeIn 0.2s ease;
+}
+
+/* Form styles */
 .form_container {
   width: 100%;
   max-width: 600px;
@@ -288,23 +597,22 @@ input {
 }
 
 .add_task_form {
-  background: white;
+  background: var(--white);
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-heavy);
   padding: 40px;
-  border: none;
   position: relative;
   overflow: hidden;
+}
 
-  &:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  }
+.add_task_form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient);
 }
 
 .form_group {
@@ -314,41 +622,43 @@ input {
 .form_label {
   display: block;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-dark);
   margin-bottom: 8px;
   font-size: 0.95em;
+}
 
-  input,
-  textarea {
-    display: block;
-    width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
-    font-size: 0.9em;
-    margin-top: 8px;
-    transition: all 0.3s ease;
-    background: #fafafa;
+.form_label input,
+.form_label textarea {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border-light);
+  border-radius: var(--border-radius);
+  font-size: 0.9em;
+  margin-top: 8px;
+  transition: var(--transition);
+  background: #fafafa;
+}
 
-    &:focus {
-      outline: none;
-      border-color: #667eea;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      transform: translateY(-1px);
-    }
+.form_label input:focus,
+.form_label textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
 
-    &::placeholder {
-      color: #bdc3c7;
-      font-style: italic;
-    }
-  }
+.form_label input::placeholder,
+.form_label textarea::placeholder {
+  color: var(--text-light);
+  font-style: italic;
+}
 
-  textarea {
-    resize: vertical;
-    min-height: 100px;
-    font-family: inherit;
-  }
+.form_label textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
 }
 
 .form_actions {
@@ -358,122 +668,47 @@ input {
   justify-content: center;
 }
 
-.btn_primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  border-radius: 12px;
-  font-size: 0.95em;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-.btn_secondary {
-  background: #ecf0f1;
-  color: #7f8c8d;
-  border: 2px solid #bdc3c7;
-  padding: 13px 30px;
-  border-radius: 12px;
-  font-size: 0.95em;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-block;
-  text-align: center;
-
-  &:hover {
-    background: #bdc3c7;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-}
-
-/* Style for links styled as buttons */
-.add_task {
-  display: inline-block;
-  padding: 0;
-  background: transparent;
-  color: white;
-  text-decoration: none;
-  text-align: center;
-  font-size: 0.95em;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  width: 100%;
-  height: 100%;
-
-  &:hover {
-    background: transparent;
-    color: white;
-  }
-}
-
-/* Special styles for due dates */
-.task_due_date {
-  font-weight: 500;
-}
-
-.task_due_date:contains("Today") {
-  color: #f39c12 !important;
-  font-weight: 600;
-}
-
-.task_due_date:contains("Tomorrow") {
-  color: #3498db !important;
-  font-weight: 600;
-}
-
-.task_due_date:contains("Overdue") {
-  color: #e74c3c !important;
-  font-weight: 700;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Page-specific styles */
-h1 {
-  display: flex;
-  justify-content: center;
+/* Checkbox styles */
+.checkbox_label {
+  display: flex !important;
   align-items: center;
-  margin: 30px 0;
-  font-size: 2.2em;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-align: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 15px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: var(--transition);
 }
 
-/* Success/Error message styles */
+.checkbox_label:hover {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-color: var(--primary-color);
+}
+
+.checkbox_label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.checkbox_label .checkmark {
+  font-size: 18px;
+  font-weight: 500;
+  color: #555;
+  transition: var(--transition);
+}
+
+.checkbox_label input[type="checkbox"]:checked + .checkmark {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
 /* Message styles */
 .message {
   padding: 15px 20px;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   margin-bottom: 20px;
   font-weight: 500;
   text-align: center;
@@ -481,80 +716,37 @@ h1 {
 
 .message.success {
   background: #d5f4e6;
-  color: #27ae60;
-  border: 1px solid #27ae60;
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
 }
 
 .message.error {
   background: #fadbd8;
-  color: #e74c3c;
-  border: 1px solid #e74c3c;
+  color: var(--danger-color);
+  border: 1px solid var(--danger-color);
 }
 
-/* Loading state for form */
+/* Loading state */
 .form_loading {
   opacity: 0.7;
   pointer-events: none;
-
-  .btn_primary {
-    background: #bdc3c7;
-    cursor: not-allowed;
-
-    &:after {
-      content: " ⏳";
-    }
-  }
 }
 
-/* Hover effect for showing popup */
-.task_item:hover .task_actions .popup {
-  display: block;
-  animation: popupFadeIn 0.2s ease;
+.form_loading .btn-primary {
+  background: var(--text-light);
+  cursor: not-allowed;
 }
 
-/* Hover effect for sort and filter actions */
-.sort_actions:hover .popup,
-.filter_actions:hover .popup {
-  display: block;
-  animation: popupFadeIn 0.2s ease;
+.form_loading .btn-primary::after {
+  content: " ⏳";
 }
 
-/* Style for sort and filter actions */
-.sort_actions,
-.filter_actions {
-  position: relative;
-  display: inline-block;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  user-select: none;
+/* Special due date styles */
+.task_due_date {
+  font-weight: 500;
 }
 
-.sort_actions:hover,
-.filter_actions:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Popup buttons styling for sort and filter */
-.sort_actions .popup button,
-.filter_actions .popup button {
-  background-color: #667eea;
-  color: white;
-
-  &:hover {
-    background-color: #764ba2;
-  }
-
-  &.active {
-    background-color: #764ba2;
-    font-weight: 600;
-    transform: scale(1.02);
-  }
-}
-
+/* Animations */
 @keyframes popupFadeIn {
   from {
     opacity: 0;
@@ -566,39 +758,45 @@ h1 {
   }
 }
 
-/* Checkbox styles for edit form */
-.checkbox_label {
-  display: flex !important;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  padding: 15px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 8px;
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
-.checkbox_label:hover {
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-  border-color: #667eea;
-}
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    margin: 0 20px;
+    font-size: 14px;
+  }
 
-.checkbox_label input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  accent-color: #667eea;
-}
+  h1 {
+    font-size: 2rem;
+  }
 
-.checkbox_label .checkmark {
-  font-size: 18px;
-  font-weight: 500;
-  color: #555;
-  transition: color 0.3s ease;
-}
+  .actions {
+    flex-direction: column;
+  }
 
-.checkbox_label input[type="checkbox"]:checked + .checkmark {
-  color: #667eea;
-  font-weight: 600;
+  .actions li {
+    width: 100%;
+    text-align: center;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .task_item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .task_item li {
+    margin-bottom: 10px;
+    text-align: center;
+  }
 }
