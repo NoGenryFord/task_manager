@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/styles/style.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>"
+    />
     <title>Task manager</title>
   </head>
   <body>
@@ -12,20 +16,24 @@
       <div class="content">
         <ul class="actions">
           <li><a href="/add_task" class="add_task">➕ Add Task</a></li>
-          <li class="dropdown">
-            <span class="sort_label">🔄 Sort</span>
-            <div class="dropdown_content">
-              <button class="sort_date">📅 Sort by date</button>
-              <button class="sort_name">🔤 Sort by name</button>
-            </div>
+          <li>
+            <span class="sort_actions">
+              🔄 Sort by date ▼
+              <div class="popup">
+                <button class="sort_date">📅 Sort by date</button>
+                <button class="sort_name">🔤 Sort by name</button>
+              </div>
+            </span>
           </li>
-          <li class="dropdown">
-            <span class="filter_label">🔍 Filter</span>
-            <div class="dropdown_content">
-              <button class="filter_all">📋 All tasks</button>
-              <button class="filter_active">🔄 Active</button>
-              <button class="filter_completed">✅ Completed</button>
-            </div>
+          <li>
+            <span class="filter_actions">
+              🔍 All tasks ▼
+              <div class="popup">
+                <button class="filter_all">📋 All tasks</button>
+                <button class="filter_active">🔄 Active</button>
+                <button class="filter_completed">✅ Completed</button>
+              </div>
+            </span>
           </li>
         </ul>
         <div class="task_cards">

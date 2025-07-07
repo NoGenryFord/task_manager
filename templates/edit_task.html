@@ -4,14 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/styles/style.css" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>➕</text></svg>" />
-    <title>Add Task</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✏️</text></svg>" />
+    <title>Edit Task</title>
   </head>
   <body>
     <main>
-      <h1>➕ Add New Task</h1>
+      <h1>✏️ Edit Task</h1>
       <div class="form_container">
-        <form class="add_task_form" id="add_task_form">
+        <form
+          class="edit_task_form"
+          id="edit_task_form"
+          data-task-id="{{ task.id }}"
+        >
           <div class="form_group">
             <label class="form_label">
               📋 Task Title
@@ -21,6 +25,7 @@
                 required
                 maxlength="100"
                 placeholder="Enter task title..."
+                value="{{ task.title }}"
               />
             </label>
           </div>
@@ -33,24 +38,47 @@
                 rows="4"
                 maxlength="500"
                 placeholder="Enter task description..."
-              ></textarea>
+              >
+{{ task.description }}</textarea
+              >
             </label>
           </div>
 
           <div class="form_group">
             <label class="form_label">
               📅 Due Date
-              <input type="date" name="dueDate" required />
+              <input
+                type="date"
+                name="dueDate"
+                required
+                value="{{ task.due_date }}"
+              />
+            </label>
+          </div>
+
+          <div class="form_group">
+            <label class="form_label checkbox_label">
+              <input
+                type="checkbox"
+                name="is_done"
+                {%
+                if
+                task.is_done
+                %}checked{%
+                endif
+                %}
+              />
+              <span class="checkmark">✅ Mark as completed</span>
             </label>
           </div>
 
           <div class="form_actions">
-            <button type="submit" class="btn_primary">✅ Create Task</button>
+            <button type="submit" class="btn_primary">💾 Update Task</button>
             <a href="/" class="btn_secondary">❌ Cancel</a>
           </div>
         </form>
       </div>
     </main>
-    <script src="../static/js/add_task.js" defer></script>
+    <script src="../static/js/edit_task.js" defer></script>
   </body>
 </html>

@@ -40,6 +40,36 @@ def reset_database():
                     description='This task demonstrates overdue status',
                     due_date='2025-07-01',
                     is_done=False
+                ),
+                Task(
+                    title='Alpha Task',
+                    description='First in alphabetical order',
+                    due_date='2025-07-15',
+                    is_done=False
+                ),
+                Task(
+                    title='Zebra Task',
+                    description='Last in alphabetical order',
+                    due_date='2025-07-08',
+                    is_done=True
+                ),
+                Task(
+                    title='Beta Project',
+                    description='Second in alphabetical order',
+                    due_date='2025-07-20',
+                    is_done=False
+                ),
+                Task(
+                    title='Urgent Meeting',
+                    description='Very important meeting today',
+                    due_date='2025-07-07',
+                    is_done=False
+                ),
+                Task(
+                    title='Done Shopping',
+                    description='Already bought groceries',
+                    due_date='2025-07-06',
+                    is_done=True
                 )
             ]
             

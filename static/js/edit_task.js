@@ -1,5 +1,5 @@
-// File: static/js/add_task.js
-// This file contains the JavaScript code for handling the addition of tasks in the task management application.
+// File: static/js/edit_task.js
+// This file contains the JavaScript code for handling the editing of tasks in the task management application.
 
 // Function to show messages
 function showMessage(message, type = "success") {
@@ -26,33 +26,37 @@ function showMessage(message, type = "success") {
 
 // Function to set loading state
 function setLoading(isLoading) {
-  const form = document.getElementById("add_task_form");
+  const form = document.getElementById("edit_task_form");
   const submitBtn = form.querySelector(".btn_primary");
 
   if (isLoading) {
     form.classList.add("form_loading");
     submitBtn.disabled = true;
-    submitBtn.textContent = "⏳ Creating Task...";
+    submitBtn.textContent = "⏳ Updating Task...";
   } else {
     form.classList.remove("form_loading");
     submitBtn.disabled = false;
-    submitBtn.textContent = "✅ Create Task";
+    submitBtn.textContent = "💾 Update Task";
   }
 }
 
-// Function to handle form submission for adding a task
+// Function to handle form submission for editing a task
 document.addEventListener("DOMContentLoaded", () => {
-  const addTaskForm = document.getElementById("add_task_form");
+  const editTaskForm = document.getElementById("edit_task_form");
 
-  if (addTaskForm) {
-    addTaskForm.addEventListener("submit", async (event) => {
+  if (editTaskForm) {
+    editTaskForm.addEventListener("submit", async (event) => {
       event.preventDefault(); // Prevent the default form submission
 
+      // Get task ID from data attribute
+      const taskId = editTaskForm.getAttribute("data-task-id");
+
       // Validate form
-      const formData = new FormData(addTaskForm);
+      const formData = new FormData(editTaskForm);
       const title = formData.get("title").trim();
       const description = formData.get("description").trim();
       const dueDate = formData.get("dueDate");
+      const isDone = formData.get("is_done") === "on";
 
       if (!title) {
         showMessage("❌ Please enter a task title", "error");
@@ -67,14 +71,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const taskData = {
         title: title,
         description: description,
-        dueDate: dueDate,
+        due_date: dueDate,
+        is_done: isDone,
       };
 
       setLoading(true);
 
       try {
-        const response = await fetch("http://127.0.0.1:5000/tasks", {
-          method: "POST",
+        const response = await fetch(`http://127.0.0.1:5000/tasks/${taskId}`, {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -82,8 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (response.ok) {
-          showMessage("✅ Task created successfully!", "success");
-          addTaskForm.reset(); // Clear the form
+          showMessage("✅ Task updated successfully!", "success");
 
           // Redirect to main page after 2 seconds
           setTimeout(() => {
@@ -91,20 +95,20 @@ document.addEventListener("DOMContentLoaded", () => {
           }, 2000);
         } else {
           const errorData = await response.json();
-          let errorMessage = "❌ Failed to create task";
-          
+          let errorMessage = "❌ Failed to update task";
+
           if (errorData.details && Array.isArray(errorData.details)) {
             errorMessage += ":\n" + errorData.details.join("\n");
           } else if (errorData.error) {
             errorMessage += ": " + errorData.error;
           }
-          
+
           showMessage(errorMessage, "error");
         }
       } catch (error) {
-        console.error("Error adding task:", error);
+        console.error("Error updating task:", error);
         showMessage(
-          "❌ Network error. Please check your connection and try again.",
+          "❌ Network error: Could not update task. Please try again.",
           "error"
         );
       } finally {
